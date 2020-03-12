@@ -7,6 +7,7 @@ DOSrat è un semplice Remote Administration Tool (RAT) scritto in C++, esso perm
 - Possibilità di cambiare la porta da utilizzare (5555 default).
 - Possibilità di creare un Client personalizzato direttamente dal server.
 - Possibilità di gestire più Client connessi contemporaneamente (max 50).
+- Il Client persiste anche dopo il riavvio del PC remoto.
 
 ## Comandi
 
