@@ -25,8 +25,6 @@ DOSrat è un semplice Remote Administration Tool (RAT) scritto in C++, esso perm
   - Pulisce la console.
 - /close
   - Ti disconnette dalla sessione corrente.
-- /shc
-  - Rende visibile il Client (/HDC per nasconderlo).
 - /spc
   - Chiude il Client.
 - /rvc
