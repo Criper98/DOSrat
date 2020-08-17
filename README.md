@@ -9,6 +9,14 @@ DOSrat è un semplice Remote Administration Tool (RAT) scritto in C++, esso perm
 - Possibilità di gestire più Client connessi contemporaneamente (max 50).
 - Il Client persiste anche dopo il riavvio del PC remoto.
 
+## 1.0.4 Novità
+
+- Aggiunti nuovi 7 comandi!
+- Aggiornato il comando /msgb.
+- Aggiunta la possibilità di salvare le impostazioni.
+- Aggiunti suoni di notifica per la connessione e disconnessione dei Client.
+- Un sacco di bug fixes.
+
 ## Comandi
 
 - /help
@@ -37,13 +45,28 @@ DOSrat è un semplice Remote Administration Tool (RAT) scritto in C++, esso perm
   - Riavvia il PC.
 - /cdo
   - Apre il vano CD (/CDC per chiuderlo).
-  
-**------------------[1.0.3]------------------**
 - /moff
   - Spegne il monitor.
-- /msgb
-  - Fa apparire un "MessageBox".
 - /ginf
   - Ottieni delle informazioni base del Client e del PC.
 - /ows <example.ex>
   - Apre un sito a scelta (esempio: /ows youtube.com).
+  
+**------------------[1.0.4]------------------**
+
+- /delc
+  - Disinstalla il Client dal PC remoto.
+- /msgb
+  - Fa apparire un "MessageBox" personalizzato.
+- /msgbi
+  - Da più informazioni sul comando /msgb.
+- /lkl
+  - Entra in modalità "LIVE KEYLOGGER". BETA (Contiene ancora dei Bug)
+- /lag
+  - Fa "laggare" il PC remoto.
+- /tsk
+  - Entra in modalità "TASKBAR JOKES".
+- /bmt
+  - Blocca il mouse e la tastiera (richiede UAC).
+- /tpc
+  - Termina un processo a scelta.
