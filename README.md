@@ -11,7 +11,7 @@ DOSrat è un semplice Remote Administration Tool (RAT) scritto in C++, esso perm
 
 ## 1.0.4 Novità
 
-- Aggiunti nuovi 7 comandi!
+- Aggiunti 7 nuovi comandi!
 - Aggiornato il comando /msgb.
 - Aggiunta la possibilità di salvare le impostazioni.
 - Aggiunti suoni di notifica per la connessione e disconnessione dei Client.
@@ -25,8 +25,6 @@ DOSrat è un semplice Remote Administration Tool (RAT) scritto in C++, esso perm
   - Pulisce la console.
 - /close
   - Ti disconnette dalla sessione corrente.
-- /shc
-  - Rende visibile il Client (/HDC per nasconderlo).
 - /spc
   - Chiude il Client.
 - /rvc
