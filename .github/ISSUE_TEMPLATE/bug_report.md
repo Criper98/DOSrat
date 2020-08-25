@@ -14,7 +14,7 @@ Una chiara e coincisa descrizione del bug
 Se puoi aggiungi uno screenshot che possa aiutare a descrivere il problema.
 
 **Su che piattaforma è avvenuto il bug?**
- - Scegli: [e.g. Windows 10, Windows 8.1, Windows 7, Altro...]
+Scrivi l'OS su cui girava il programma (esempio: Windows 7)
 
 **In che versione era il programma?**
 Scrivi la versione del programma (esempio: v1.0.5-a)
