@@ -1,5 +1,7 @@
 # DOSrat
 
+[![Version](https://img.shields.io/github/v/tag/Criper98/DOSrat?color=10&label=DOSrat)]()
+
 DOSrat è un semplice Remote Administration Tool (RAT) scritto in C++, esso permette di eseguire diverse azioni sul PC nel quale è installato il Client.
 
 ## Features
