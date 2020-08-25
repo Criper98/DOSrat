@@ -14,6 +14,10 @@ DOSrat è un semplice Remote Administration Tool (RAT) scritto in C++, esso perm
 - Aggiunto il comando /rpx!
 - Fixato il comando /lkl.
 
+## Video tutorial
+
+- https://youtu.be/AAtpKh9KWLs
+
 ## Comandi
 
 - /help
