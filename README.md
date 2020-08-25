@@ -59,7 +59,7 @@ DOSrat è un semplice Remote Administration Tool (RAT) scritto in C++, esso perm
 - /msgbi
   - Da più informazioni sul comando /msgb.
 - /lkl
-  - Entra in modalità "LIVE KEYLOGGER". BETA (Contiene ancora dei Bug)
+  - Entra in modalità "LIVE KEYLOGGER".
 - /lag
   - Fa "laggare" il PC remoto.
 - /tsk
