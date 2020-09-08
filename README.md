@@ -21,6 +21,11 @@ DOSrat è un semplice Remote Administration Tool (RAT) scritto in C++, esso perm
 
 - https://youtu.be/AAtpKh9KWLs
 
+## Immagini
+|Schermata iniziale |In attesa |Impostazioni |
+|-------------------|----------|-------------|
+|![image 1](https://i.ibb.co/PY1FGpf/1.png)|![image 2](https://i.ibb.co/CPPkq1N/2.png)|![image 3](https://i.ibb.co/yRRYH8q/3.png)|
+
 ## Comandi
 
 - /help
