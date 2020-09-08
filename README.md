@@ -12,10 +12,13 @@ DOSrat è un semplice Remote Administration Tool (RAT) scritto in C++, esso perm
 - Possibilità di gestire più Client connessi contemporaneamente (max 50).
 - Il Client persiste anche dopo il riavvio del PC remoto.
 
-## 1.0.5 Novità
+## 1.0.6 Novità
 
-- Aggiunto il comando /rpx!
-- Fixato il comando /lkl.
+- Un sacco di bug fixes!
+- Aggiornato il comando /msgb.
+- Ulteriori fix per il comando /lkl.
+- Rimosso il comando /msgbi.
+- Cambiata la grafica delle Impostazioni.
 
 ## Video tutorial
 
@@ -62,8 +65,6 @@ DOSrat è un semplice Remote Administration Tool (RAT) scritto in C++, esso perm
   - Disinstalla il Client dal PC remoto.
 - /msgb
   - Fa apparire un "MessageBox" personalizzato.
-- /msgbi
-  - Da più informazioni sul comando /msgb.
 - /lkl
   - Entra in modalità "LIVE KEYLOGGER".
 - /lag
@@ -74,8 +75,12 @@ DOSrat è un semplice Remote Administration Tool (RAT) scritto in C++, esso perm
   - Blocca il mouse e la tastiera (richiede UAC).
 - /tpc
   - Termina un processo a scelta.
-  
-**------------------[1.0.5]------------------**
-
 - /rpx
   - Genera pixel randomici sullo schermo (/rpxr per disattivare).
+  
+**------------------[1.0.6]------------------**
+
+- /msgb
+  - Aggiornato rendendo più scorrevole la scelta dei bottoni e del simbolo.
+- /lkl
+  - Aggiornato risolvendo ulteriori problemi che potevano presentarsi.
