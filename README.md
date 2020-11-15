@@ -12,14 +12,11 @@ DOSrat è un semplice Remote Administration Tool (RAT) scritto in C++, esso perm
 - Possibilità di gestire più Client connessi contemporaneamente (max 50).
 - Il Client persiste anche dopo il riavvio del PC remoto.
 
-## 1.1.0 Novità
+## 1.1.1 Novità
 
 - Un sacco di bug fixes!
-- Aggiunto il comando /mstk!
-- Aggiornato il comando /lkl. (per maggiori info consultare la lista dei comandi qui sotto)
 - Aggiornato il comando /ginf. (per maggiori info consultare la lista dei comandi qui sotto)
-- Aggiunto un Update Checker!
-- Aggiunte le impostazioni per il comando /lkl e per gli Update!
+- Aggiornato l'Update Checker!
 - Modificata la grafica del comado /help!
 
 ## Video tutorial
@@ -39,16 +36,16 @@ DOSrat è un semplice Remote Administration Tool (RAT) scritto in C++, esso perm
   - /rvc      - Riavvia il Client.
   - /spc      - Chiude il Client.
   - /delc     - Disinstalla il Client dal PC remoto.
-  - /ginf     - Ottieni delle informazioni base del Client e del PC. [1.1.0 - Aggiunta la data d'installazione]
-  - /help     - Mostra la lista dei comandi disponibili. [1.1.0 - Rivisitato lo stile grafico]
+  - /ginf     - Ottieni delle informazioni base del Client e del PC. [1.1.1 - Aggiunto l'utilizzo della CPU]
+  - /help     - Mostra la lista dei comandi disponibili. [1.1.1 - Rivisitato lo stile grafico]
 - **[Mouse & Keyboard]**
   - /ms       - Inverte i tasti del mouse (/MSR per reimpostarli).
   - /czm      - Fa impazzire il mouse (/CZMR per reimpostarlo).
   - /ml       - Blocca il mouse (/MLR per sbloccarlo).
   - /mvb      - Fa vibrare il puntatore (/MVBR per disattivare).
   - /bmt      - Blocca il mouse e la tastiera (richiede UAC).
-  - /lkl      - Entra in modalità "LIVE KEYLOGGER". [1.1.0 - Invece di cancellare un carattere viene scritto [BACKSPACE]]
-  - /mstk     - Entra in modalità "MOUSE TRACK". [1.1.0 - Permette di controllare il mouse della vittima da remoto]
+  - /lkl      - Entra in modalità "LIVE KEYLOGGER".
+  - /mstk     - Entra in modalità "MOUSE TRACK".
 - **[Desktop]**
   - /moff     - Spegne il monitor.
   - /msgb     - Fa apparire un "MessageBox" personalizzato.
