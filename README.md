@@ -12,13 +12,16 @@ DOSrat è un semplice Remote Administration Tool (RAT) scritto in C++, esso perm
 - Possibilità di gestire più Client connessi contemporaneamente (max 50).
 - Il Client persiste anche dopo il riavvio del PC remoto.
 
-## 1.1.2 Novità
+## 1.1.3 Novità
 
-- Un sacco di bug fixes!
-- Aggiunto il comando /scy. (per maggiori info consultare la lista dei comandi qui sotto)
-- Fixato un bug che comprometteva il funzionamento del comando /tpc.
-- Aggiornato l'Update Checker!
-- Modificata la grafica del comado /help!
+- Aggiunto il comando /sfo! (per maggiori info consultare la lista dei comandi qui sotto)
+- Aggiunta la cattura dei click del mouse nel comando /mstk!
+- Aggiunta un impostazione per abilitare o disabilitare la cattura dei click del mouse nel comando /mstk.
+- Cambiato lo stile di navigazione tra i vari menù!
+
+## 1.1.3 Fixes
+
+- Bug fixes per il comando /tpc.
 
 ## Video tutorial
 
@@ -38,7 +41,7 @@ DOSrat è un semplice Remote Administration Tool (RAT) scritto in C++, esso perm
   - /spc      - Chiude il Client.
   - /delc     - Disinstalla il Client dal PC remoto.
   - /ginf     - Ottieni delle informazioni base del Client e del PC.
-  - /help     - Mostra la lista dei comandi disponibili. [1.1.2 - Rivisitato lo stile grafico]
+  - /help     - Mostra la lista dei comandi disponibili.
 - **[Mouse & Keyboard]**
   - /ms       - Inverte i tasti del mouse (/MSR per reimpostarli).
   - /czm      - Fa impazzire il mouse (/CZMR per reimpostarlo).
@@ -53,11 +56,12 @@ DOSrat è un semplice Remote Administration Tool (RAT) scritto in C++, esso perm
   - /ows      - Apre un sito a scelta (esempio: /ows youtube.com).
   - /tsk      - Entra in modalità "TASKBAR JOKES".
   - /rpx      - Genera pixel randomici sullo schermo (/rpxr per disattivare).
+  - /sfo      - Elimina lo sfondo del PC remoto. [1.1.3]
 - **[Computer]**
   - /sw       - Spegne il PC.
   - /rb       - Riavvia il PC.
   - /cdo      - Apre il vano CD (/CDC per chiuderlo).
 - **[Misc]**
   - /lag      - Fa "laggare" il PC remoto.
-  - /tpc      - Termina un processo a scelta. [1.1.2 - Fixato un bug che ne comprometteva il funzionamento]
-  - /scy      - Permette di eseguire uno script (vbs,cmd,bat) nel PC remoto. [1.1.2]
+  - /tpc      - Termina un processo a scelta. [1.1.3 - Bug fixes ma presenta ancora problemi]
+  - /scy      - Permette di eseguire uno script (vbs,cmd,bat) nel PC remoto.
