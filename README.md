@@ -22,7 +22,7 @@ DOSrat è un semplice Remote Administration Tool (RAT) scritto in C++, esso perm
 
 ## 1.1.4 Fixes
 
-- Aggiunto un controllo per vericare la/l' presenza/accessibilità del file dosc.cpp, che, se mancante causava l'arresto del programma.
+- Aggiunto un controllo per verificare la/l' presenza/accessibilità del file dosc.cpp, che, se mancante causava l'arresto del programma.
 - Aggiornata l'estetica del comando SCY.
 - Fixato il bug delle "connessioni fantasma".
 
