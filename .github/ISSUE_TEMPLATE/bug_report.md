@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Crea un report per aiutare lo sviluppatore.
-title: ''
+title: Inserisci il titolo.
 labels: ''
 assignees: ''
 
