@@ -52,7 +52,7 @@ DOSrat è un semplice Remote Administration Tool (RAT) scritto in C++, esso perm
   - ML       - Blocca il mouse (MLR per sbloccarlo).
   - MVB      - Fa vibrare il puntatore (MVBR per disattivare).
   - BMT      - Blocca il mouse e la tastiera (richiede UAC).
-  - LKL      - Entra in modalità "LIVE KEYLOGGER". [1.1.4 - Le sessioni ora sono salvabili su file]
+  - LKL      - Entra in modalità "LIVE KEYLOGGER".
   - MSTK     - Entra in modalità "MOUSE TRACK".
 - **[Desktop]**
   - MOFF     - Spegne il monitor.
@@ -64,10 +64,10 @@ DOSrat è un semplice Remote Administration Tool (RAT) scritto in C++, esso perm
 - **[Computer]**
   - SW       - Spegne il PC.
   - RB       - Riavvia il PC.
-  - BSOD     - Triggera il Blue Screen Of Death. [1.1.4]
+  - BSOD     - Triggera il Blue Screen Of Death.
   - CDO      - Apre il vano CD (CDC per chiuderlo).
 - **[Misc]**
   - LAG      - Fa "laggare" il PC remoto.
   - TPC      - Termina un processo a scelta.
-  - SCY      - Permette di eseguire uno script (vbs,cmd,bat) nel PC remoto. [1.1.4 - Estetica aggiornata]
-  - BEEP     - Riproduce suoni randomici sul PC remoto (BEEPR per disattivare). [1.1.4]
+  - SCY      - Permette di eseguire uno script (vbs,cmd,bat) nel PC remoto.
+  - BEEP     - Riproduce suoni randomici sul PC remoto (BEEPR per disattivare).
