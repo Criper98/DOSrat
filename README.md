@@ -12,16 +12,19 @@ DOSrat è un semplice Remote Administration Tool (RAT) scritto in C++, esso perm
 - Possibilità di gestire più Client connessi contemporaneamente (max 50).
 - Il Client persiste anche dopo il riavvio del PC remoto.
 
-## 1.1.3 Novità
+## 1.1.4 Novità
 
-- Aggiunto il comando /sfo! (per maggiori info consultare la lista dei comandi qui sotto)
-- Aggiunta la cattura dei click del mouse nel comando /mstk!
-- Aggiunta un impostazione per abilitare o disabilitare la cattura dei click del mouse nel comando /mstk.
-- Cambiato lo stile di navigazione tra i vari menù!
+- Aggiunto il comando BSOD! (per maggiori info consultare la lista dei comandi qui sotto)
+- Aggiunto il comando BEEP! (per maggiori info consultare la lista dei comandi qui sotto)
+- Aggiunta la possibilità di salvare su file le sessioni del comando LKL!
+- Aggiunta una relativa opzione per disabilitare la funzione sopra citata.
+- Rimosso lo "/" prima dei comandi per rendere la digitazione più immediata.
 
-## 1.1.3 Fixes
+## 1.1.4 Fixes
 
-- Bug fixes per il comando /tpc.
+- Aggiunto un controllo per verificare la/l' presenza/accessibilità del file dosc.cpp, che, se mancante causava l'arresto del programma.
+- Aggiornata l'estetica del comando SCY.
+- Fixato il bug delle "connessioni fantasma".
 
 ## Video tutorial
 
@@ -35,33 +38,35 @@ DOSrat è un semplice Remote Administration Tool (RAT) scritto in C++, esso perm
 ## Comandi
 
 - **[Client & Server]**
-  - /close    - Chiude la sessione corrente.
-  - /cls      - Pulisce la console.
-  - /rvc      - Riavvia il Client.
-  - /spc      - Chiude il Client.
-  - /delc     - Disinstalla il Client dal PC remoto.
-  - /ginf     - Ottieni delle informazioni base del Client e del PC.
-  - /help     - Mostra la lista dei comandi disponibili.
+  - CLOSE    - Chiude la sessione corrente.
+  - CLS      - Pulisce la console.
+  - RVC      - Riavvia il Client.
+  - SPC      - Chiude il Client.
+  - DELC     - Disinstalla il Client dal PC remoto.
+  - GINF     - Ottieni delle informazioni base del Client e del PC.
+  - HELP     - Mostra la lista dei comandi disponibili.
 - **[Mouse & Keyboard]**
-  - /ms       - Inverte i tasti del mouse (/MSR per reimpostarli).
-  - /czm      - Fa impazzire il mouse (/CZMR per reimpostarlo).
-  - /ml       - Blocca il mouse (/MLR per sbloccarlo).
-  - /mvb      - Fa vibrare il puntatore (/MVBR per disattivare).
-  - /bmt      - Blocca il mouse e la tastiera (richiede UAC).
-  - /lkl      - Entra in modalità "LIVE KEYLOGGER".
-  - /mstk     - Entra in modalità "MOUSE TRACK".
+  - MS       - Inverte i tasti del mouse (MSR per reimpostarli).
+  - CZM      - Fa impazzire il mouse (CZMR per reimpostarlo).
+  - ML       - Blocca il mouse (MLR per sbloccarlo).
+  - MVB      - Fa vibrare il puntatore (MVBR per disattivare).
+  - BMT      - Blocca il mouse e la tastiera (richiede UAC).
+  - LKL      - Entra in modalità "LIVE KEYLOGGER". [1.1.4 - Le sessioni ora sono salvabili su file]
+  - MSTK     - Entra in modalità "MOUSE TRACK".
 - **[Desktop]**
-  - /moff     - Spegne il monitor.
-  - /msgb     - Fa apparire un "MessageBox" personalizzato.
-  - /ows      - Apre un sito a scelta (esempio: /ows youtube.com).
-  - /tsk      - Entra in modalità "TASKBAR JOKES".
-  - /rpx      - Genera pixel randomici sullo schermo (/rpxr per disattivare).
-  - /sfo      - Elimina lo sfondo del PC remoto. [1.1.3]
+  - MOFF     - Spegne il monitor.
+  - MSGB     - Fa apparire un "MessageBox" personalizzato.
+  - OWS      - Apre un sito a scelta (esempio: ows youtube.com).
+  - TSK      - Entra in modalità "TASKBAR JOKES".
+  - RPX      - Genera pixel randomici sullo schermo (RPXR per disattivare).
+  - SFO      - Elimina lo sfondo del PC remoto.
 - **[Computer]**
-  - /sw       - Spegne il PC.
-  - /rb       - Riavvia il PC.
-  - /cdo      - Apre il vano CD (/CDC per chiuderlo).
+  - SW       - Spegne il PC.
+  - RB       - Riavvia il PC.
+  - BSOD     - Triggera il Blue Screen Of Death. [1.1.4]
+  - CDO      - Apre il vano CD (CDC per chiuderlo).
 - **[Misc]**
-  - /lag      - Fa "laggare" il PC remoto.
-  - /tpc      - Termina un processo a scelta. [1.1.3 - Bug fixes ma presenta ancora problemi]
-  - /scy      - Permette di eseguire uno script (vbs,cmd,bat) nel PC remoto.
+  - LAG      - Fa "laggare" il PC remoto.
+  - TPC      - Termina un processo a scelta.
+  - SCY      - Permette di eseguire uno script (vbs,cmd,bat) nel PC remoto. [1.1.4 - Estetica aggiornata]
+  - BEEP     - Riproduce suoni randomici sul PC remoto (BEEPR per disattivare). [1.1.4]
