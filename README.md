@@ -12,19 +12,20 @@ DOSrat è un semplice Remote Administration Tool (RAT) scritto in C++, esso perm
 - Possibilità di gestire più Client connessi contemporaneamente (max 50).
 - Il Client persiste anche dopo il riavvio del PC remoto.
 
-## 1.1.4 Novità
+## 1.1.5 Novità
 
-- Aggiunto il comando BSOD! (per maggiori info consultare la lista dei comandi qui sotto)
-- Aggiunto il comando BEEP! (per maggiori info consultare la lista dei comandi qui sotto)
-- Aggiunta la possibilità di salvare su file le sessioni del comando LKL!
-- Aggiunta una relativa opzione per disabilitare la funzione sopra citata.
-- Rimosso lo "/" prima dei comandi per rendere la digitazione più immediata.
+- Aggiornata la grafica del comando TPC.
+- Aggiornata la grafica del comando GINF.
+- Aggiornata la grafica nella lista delle connessioni.
+- Aggiunta possibilità di vedere la versione del Client dalla lista delle connessioni (Se il Client è inferiore alla 1.1.5 verranno visualizzati dei punti di domanda)
 
-## 1.1.4 Fixes
+## 1.1.5 Fixes
 
-- Aggiunto un controllo per verificare la/l' presenza/accessibilità del file dosc.cpp, che, se mancante causava l'arresto del programma.
-- Aggiornata l'estetica del comando SCY.
-- Fixato il bug delle "connessioni fantasma".
+- Quando il Client cerca di connettersi al Server ora aggiorna dinamicamente l'IP.
+- Delle volte non veniva creato il file per salvare le sessioni del comando LKL, ora il file e le cartelle vengono create correttamente.
+- Se il Server viene chiuso il Client continua ad eseguire i comandi dati. (quindi anche senza connessione)
+- Migliorato il protocollo del Client per gestire la perdita di connessione.
+- Risolto il bug delle connessioni multiple da un singolo Client.
 
 ## Video tutorial
 
