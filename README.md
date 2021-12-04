@@ -21,7 +21,7 @@ DOSrat è un semplice Remote Administration Tool (RAT) scritto in C++, esso perm
 
 ## 1.1.5 Fixes
 
-- Quando il Client cerca di connettersi al Server ora aggiorna dinamicamente l'IP.
+- Quando il Client cerca di connettersi al Server ora aggiorna dinamicamente l'IP ricavato dal DNS.
 - Delle volte non veniva creato il file per salvare le sessioni del comando LKL, ora il file e le cartelle vengono create correttamente.
 - Se il Server viene chiuso il Client continua ad eseguire i comandi dati. (quindi anche senza connessione)
 - Migliorato il protocollo del Client per gestire la perdita di connessione.
