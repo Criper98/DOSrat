@@ -5,6 +5,10 @@
 
 DOSrat è un semplice Remote Administration Tool (RAT) scritto in C++, esso permette di eseguire diverse azioni sul PC nel quale è installato il Client.
 
+## DOSrat 2.0
+
+Questa versione di DOSrat non è più mantenuta, attualmente è in via di sviluppo [DOSrat 2.0](https://github.com/Criper98/DOSrat-2.0) che sarà il successore di questo primo progetto.
+
 ## Features
 
 - Possibilità di cambiare la porta da utilizzare (5555 default).
